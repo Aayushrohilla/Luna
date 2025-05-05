@@ -13,6 +13,20 @@ const App = () => {
   const [isGeneratingResponse, setIsGeneratingResponse] = useState(false);  // Prevent multiple responses
   const messageEndRef = useRef(null); // For auto-scrolling
 
+
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsSmallScreen(window.innerWidth < 640);
+  };
+
+  handleResize(); // Initial check
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
+
   const generateResponse = async (msg) => {
     if (isGeneratingResponse) return;  // Prevent generating multiple responses
 
@@ -112,41 +126,42 @@ const App = () => {
           <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(255,0,255,0.6)] uppercase tracking-wider">
             Luna
           </h1>
-          <div className="boxes mt-[100px] flex items-center gap-4">
-            <div
-              className="card w-[80%] sm:w-[45%] md:w-[22%] rounded-lg cursor-pointer transition-all hover:bg-purple-500 bg-[#181818] p-5 relative min-h-[20vh]"
-              onClick={() => handleCardClick('What is coding ? How we can learn it.')}
-            >
-              <p className='text-[18px]'>What is coding ? <br />
-                How we can learn it.</p>
-              <i className='absolute right-3 bottom-3 text-[18px]'><IoCodeSlash /></i>
-            </div>
-            <div
-              className="card w-[80%] sm:w-[45%] md:w-[22%] rounded-lg cursor-pointer transition-all hover:bg-purple-500 bg-[#181818] p-5 relative min-h-[20vh]"
-              onClick={() => handleCardClick('Which is the red planet of solar system?')}
-            >
-              <p className='text-[18px]'>Which is the red <br />
-                planet of solar <br />
-                system </p>
-              <i className='absolute right-3 bottom-3 text-[18px]'><BiPlanet /></i>
-            </div>
-            <div
-              className="card w-[80%] sm:w-[45%] md:w-[22%] rounded-lg cursor-pointer transition-all hover:bg-purple-500 bg-[#181818] p-5 relative min-h-[20vh]"
-              onClick={() => handleCardClick('In which year python was invented?')}
-            >
-              <p className='text-[18px]'>In which year python <br />
-                was invented ?</p>
-              <i className='absolute right-3 bottom-3 text-[18px]'><FaPython /></i>
-            </div>
-            <div
-              className="card w-[80%] sm:w-[45%] md:w-[22%] rounded-lg cursor-pointer transition-all hover:bg-purple-500 bg-[#181818] p-5 relative min-h-[20vh]"
-              onClick={() => handleCardClick('How we can use AI for adoption?')}
-            >
-              <p className='text-[18px]'>How we can use <br />
-                the AI for adopt ?</p>
-              <i className='absolute right-3 bottom-3 text-[18px]'><TbMessageChatbot /></i>
-            </div>
-          </div>
+          <div className="boxes mt-[100px] flex items-center gap-4 flex-wrap justify-center">
+  {[
+    {
+      text: "What is coding ?\nHow we can learn it.",
+      icon: <IoCodeSlash />,
+      onClick: () => handleCardClick("What is coding ? How we can learn it."),
+    },
+    {
+      text: "Which is the red\nplanet of solar\nsystem",
+      icon: <BiPlanet />,
+      onClick: () => handleCardClick("Which is the red planet of solar system?"),
+    },
+    {
+      text: "In which year python\nwas invented ?",
+      icon: <FaPython />,
+      onClick: () => handleCardClick("In which year python was invented?"),
+    },
+    {
+      text: "How we can use\nthe AI for adopt ?",
+      icon: <TbMessageChatbot />,
+      onClick: () => handleCardClick("How we can use AI for adoption?"),
+    },
+  ]
+    .slice(0, isSmallScreen ? 2 : 4) // 👈 limit cards if on small screen
+    .map((card, idx) => (
+      <div
+        key={idx}
+        className="card w-[80%] sm:w-[45%] md:w-[22%] rounded-lg cursor-pointer transition-all hover:bg-purple-500 bg-[#181818] p-5 relative min-h-[20vh]"
+        onClick={card.onClick}
+      >
+        <p className="text-[18px] whitespace-pre-line">{card.text}</p>
+        <i className="absolute right-3 bottom-3 text-[18px]">{card.icon}</i>
+      </div>
+    ))}
+</div>
+
         </div>
       )}
 
@@ -176,3 +191,4 @@ const App = () => {
 };
 
 export default App;
+
