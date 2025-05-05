@@ -70,7 +70,7 @@ className="bg-[#181818] px-5 py-2 rounded-full text-sm cursor-pointer"
       </div>
     ) : (
       <div className="flex flex-col items-center justify-center h-full">
-        <h1 className="text-4xl pt-32 font-extrabold bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(255,0,255,0.6)] uppercase tracking-wider">
+        <h1 className="text-4xl  font-extrabold bg-gradient-to-r from-purple-500 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(255,0,255,0.6)] uppercase tracking-wider">
           Luna
         </h1>
         <div className="boxes mt-[100px] flex items-center gap-4 flex-wrap justify-center">
